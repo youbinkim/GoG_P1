@@ -1,4 +1,4 @@
-# GoG_P1
+GoG_P1
 
 Setting up the repository:
 
