@@ -18,6 +18,13 @@ quantity in your submission.
 
 Overall, we tried several approaches to attempting to solve the problem. This can be divided into feature engineering, random forest tuning, and gradient boosting tuning. \\
 
+Just listing things we should talk about: first writing for loops to try to tune RF parameters--> gridsearch--> random search(because took too much time)
+attempting to use oob for rf but got error (UserWarning: Some inputs do not have OOB scores. This probably means too few trees were used to compute any reliable oob estimates.
+warn("Some inputs do not have OOB scores. "
+done loading)
+
+Thus did 80/20 split on test data.
+Attempted to do 5-fold cross-validation for parameter tuning, took too much time. 
 
 How did you tackle the problem? Credit will be given for:
 
