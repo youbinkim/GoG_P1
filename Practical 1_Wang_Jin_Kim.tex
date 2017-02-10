@@ -16,6 +16,8 @@ quantity in your submission.
 
 Overall, we tried several approaches to attempting to solve the problem. This can be divided into feature engineering, random forest tuning, and gradient boosting tuning. \\
 
+Before trying various regression techniques, we realized the importance of feature engineering. In order to accurately predict the HOMO-LUMO gap for various molecules, we need to learn using relavent features. We believe that molecules that are structurally similar are likely to have similar HOMO-LUMO gaps. In order to judge similarity between molecules, we use RDkit to generate structural fingerprints of each molecule. The type of fingerprint we used are Morgan (circular) fingerprints, which hashes sections of the molecule with increasing radii up to a preset radius. Given a wide diversity of molecules, a diameter of 4 or 6 gives the best results in measuring similarity (O'Boyle \& Sayle, 2016). We thus fingerprinted each molecule with a diameter of 4 into a 256 bit vector. Finally, we appended these 256 new ``features'' to the existing data file given.
+
 Just listing things we should talk about: first writing for loops to try to tune RF parameters--> gridsearch--> random search(because took too much time)
 attempting to use oob for rf but got error (UserWarning: Some inputs do not have OOB scores. This probably means too few trees were used to compute any reliable oob estimates.
 warn("Some inputs do not have OOB scores. "
