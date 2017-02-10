@@ -18,7 +18,7 @@ Overall, we tried several approaches to attempting to solve the problem. This ca
 
 Before trying various regression techniques, we realized the importance of feature engineering. In order to accurately predict the HOMO-LUMO gap for various molecules, we need to learn using relavent features. We believe that molecules that are structurally similar are likely to have similar HOMO-LUMO gaps. In order to judge similarity between molecules, we use RDkit to generate structural fingerprints of each molecule. The type of fingerprint we used are Morgan (circular) fingerprints, which hashes sections of the molecule with increasing radii up to a preset radius. Given a wide diversity of molecules, a diameter of 4 or 6 gives the best results in measuring similarity (O'Boyle \& Sayle, 2016). We thus fingerprinted each molecule with a diameter of 4 into a 256 bit vector. Finally, we appended these 256 new ``features'' to the existing data file given.
 
-Just listing things we should talk about: first writing for loops to try to tune RF parameters--> gridsearch--> random search(because took too much time)
+Just listing things we should talk about: First we analyzed the features we had already--> looked for repetitions,not avaliable values, first writing for loops to try to tune RF parameters--> gridsearch--> random search(because took too much time)
 attempting to use oob for rf but got error (UserWarning: Some inputs do not have OOB scores. This probably means too few trees were used to compute any reliable oob estimates.
 warn("Some inputs do not have OOB scores. "
 done loading)
@@ -26,33 +26,53 @@ done loading)
 Thus did 80/20 split on test data.
 Attempted to do 5-fold cross-validation for parameter tuning using grid search, took too much time. 
 
-How did you tackle the problem? Credit will be given for:
+Based gradient boosting tuning on this website:
+https://www.analyticsvidhya.com/blog/2016/02/complete-guide-parameter-tuning-gradient-boosting-gbm-python/
 
+Tuned random forest with help from this website:
+https://www.analyticsvidhya.com/blog/2015/06/tuning-random-forest-model/
 
+Chose original values based off of these suggestions.
+
+\section{Methods}
+\subsection{Feature Engineering}
+\subsection{Linear Regression}
+\subsection{Random Forest}
   \begin{table}
-    \centering
-    \begin{tabular}{@{}lll@{}}
-      \toprule
-      &\multicolumn{2}{c}{Mention Features  } \\
-      & Feature & Value Set\\
-      \midrule
-      & Mention Head & $\mcV$ \\
-      & Mention First Word & $\mcV$ \\
-      & Mention Last Word & $\mcV$ \\
-      & Word Preceding Mention & $\mcV$ \\
-      & Word Following Mention & $\mcV$\\
-      & \# Words in Mention & $\{1, 2, \ldots \}$ \\
-      & Mention Type & $\mathcal{T}$ \\
-      \bottomrule
-      
-    \end{tabular}
-    \caption{Feature lists are a good way of illustrating problem specific tuning.}
+  	\centering
+  	\begin{tabular}{@{}lll@{}}
+  		\toprule
+  		&\multicolumn{2}{c}{Random Forest Tuning  } \\
+  		& Hyperparameter & Utilized Value\\
+  		\midrule
+  		& Max Depth & $8$ \\
+  		& Min Samples Leaf& $1$ \\
+  		& N Estimators & $26$ \\
+  		\bottomrule
+  		
+  	\end{tabular}
+  	\caption{The results of our attempted Randomized Search CV}
   \end{table}
-
-
+\subsection{Gradient Boosting}
 
 \section{Results}
 This section should report on the following questions: 
+
+\begin{table}
+	\centering
+	\begin{tabular}{llr}
+		\toprule
+		Model &  & MSE \\
+		\midrule
+		\textsc{Baseline Linear} & & 0.089\\
+		\textsc{Baseline RF} & & 0.074 \\
+		\textsc{Tuned Random Forest*} & &0.073   \\
+		\textsc{Gradient Boost Learning Rate 0.1} & & 0.077\\
+		\textsc{Gradient Boost Learning Rate 0.05} & & 0.077\\
+		\bottomrule
+	\end{tabular}
+	\caption{\label{tab:results} This table displays the predicted mean square error for every model on a set randomized $20\%$ of the test data. *n estimators: $64$, max depth:$9$, min samples leaf:$50$}
+\end{table}
 
 \begin{itemize}
 \item Did you create and submit a set of
@@ -70,40 +90,14 @@ methods you tried compared to your baselines.
 
 
 
-\begin{table}
-\centering
-\begin{tabular}{llr}
- \toprule
- Model &  & Acc. \\
- \midrule
- \textsc{Baseline 1} & & 0.45\\
- \textsc{Baseline 2} & & 2.59 \\
- \textsc{Model 1} & & 10.59  \\
- \textsc{Model 2} & &13.42 \\
- \textsc{Model 3} & & 7.49\\
- \bottomrule
-\end{tabular}
-\caption{\label{tab:results} Result tables can compactly illustrate absolute performance, but a plot may be more effective at illustrating a trend.}
-\end{table}
+
 
 
 
 
 \section{Discussion} 
 
-
-End your report by discussing the thought process behind your
-analysis. This section does not need to be as technical as the others 
-but should summarize why you took the approach that your did. Credit will be given for:
-
-  \begin{itemize}
-  \item Explaining the your reasoning for why you seqentially chose to
-    try the approaches you did (i.e. what was it about your initial
-    approach that made you try the next change?).  
-  \item Explaining the results.  Did the adaptations you tried improve
-    the results?  Why or why not?  Did you do additional tests to
-    determine if your reasoning was correct?  
-  \end{itemize}
+Ultimately, analyzing such a large amount of data proved to be a unique challenge for us because of the high computing power and long run times required to process the data. It was difficult to tune the models as best as we would of liked, but overall our results were promising.
  
 
 \end{document}
